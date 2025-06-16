@@ -76,6 +76,7 @@ Clone o Repositório:
 Bash
 
 git clone [https://github.com/GabrielHespanhol/ansible-debian-upgrade.git](https://github.com/GabrielHespanhol/ansible-debian-upgrade.git)
+
 cd ansible-debian-upgrade
 
 Configure o Inventário (inventory/hosts):
