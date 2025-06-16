@@ -73,12 +73,10 @@ Siga os passos abaixo para utilizar este projeto Ansible para atualizar seus sis
 
 Clone o Repositório:
 
-Bash
-
+```Bash
 git clone [https://github.com/GabrielHespanhol/ansible-debian-upgrade.git](https://github.com/GabrielHespanhol/ansible-debian-upgrade.git)
-
 cd ansible-debian-upgrade
-
+```
 Configure o Inventário (inventory/hosts):
 Edite o arquivo inventory/hosts para listar seus servidores Debian. Você pode definir grupos para organizar seus hosts.
 
