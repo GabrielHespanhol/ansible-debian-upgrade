@@ -1,0 +1,42 @@
+---
+- name: Atualizando sources.list
+  ansible.builtin.copy:
+    src: sources.list 
+    dest: /etc/apt/sources.list 
+    owner: root 
+    group: root 
+    mode: '0644' 
+  when: ansible_distribution_major_version == "11"
+    
+- name: Debian 11 to 12 - APT GET UPDATE
+  ansible.builtin.apt:
+    update_cache: yes
+    force_apt_get: yes
+    name:
+      - apt
+      - dpkg
+      - aptitude
+      - apt-utils
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "11"
+
+- name: Debian 11 to 12 (apt full-upgrade)
+  ansible.builtin.apt:
+    upgrade: dist
+    autoclean: yes
+    autoremove: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "11"
+  register: deb11_dist_upgrade_resul
+
+- name: Realizando reboot do servidor
+  ansible.builtin.reboot:
+    reboot_timeout: 600
+  changed_when: true
+  when: deb11_dist_upgrade_resul is defined and deb11_dist_upgrade_resul.changed
+
+- name: Removendo pacotes - APT GET AUTOREMOVE
+  ansible.builtin.command: apt autoremove --purge -y
+  changed_when: true

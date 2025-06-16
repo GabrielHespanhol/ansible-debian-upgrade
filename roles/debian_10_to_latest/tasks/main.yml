@@ -1,0 +1,29 @@
+---
+- name: Debian 10 - APT GET UPDATE
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 0
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "10"
+
+- name: Debian 10 - APT GET --fix-broken install
+  ansible.builtin.command: /usr/bin/apt-get --fix-broken install -y
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "10"
+  register: deb10_fix_broken_result
+
+- name: Debian 10 - APT GET dist-upgrade
+  ansible.builtin.apt:
+    upgrade: dist
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "10"
+  register: deb10_dist_upgrade_result
+
+- name: Debian 10 - Realizando o reboot do servidor
+  ansible.builtin.reboot:
+    reboot_timeout: 600
+  changed_when: true
+  when: deb10_fix_broken_result is defined and deb10_fix_broken_result.changed

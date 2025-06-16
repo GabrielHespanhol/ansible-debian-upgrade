@@ -1,0 +1,47 @@
+---
+- name: Debian 11 - Atualizando sources.list 
+  ansible.builtin.copy:
+    src: sources.list 
+    dest: /etc/apt/sources.list 
+    owner: root 
+    group: root 
+    mode: '0644' 
+  when: ansible_distribution_major_version == "10"
+
+- name: Debian 11 Bullseye - APT GET UPDATE
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 0
+  when: ansible_distribution_major_version == "10"
+
+- name: Debian 11 Bullseye - APT GET UPGRADE
+  ansible.builtin.apt:
+    force_apt_get: yes 
+    name:
+      - apt
+      - dpkg
+      - aptitude
+      - apt-utils
+    state: latest
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "10"
+
+- name: Debian 10 to 11 (apt full-upgrade)
+  ansible.builtin.apt:
+    upgrade: dist
+    force_apt_get: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_distribution_major_version == "10"
+  register: deb10_dist_upgrade_resul
+
+- name: Realizando o reboot do servidor
+  ansible.builtin.reboot:
+    reboot_timeout: 600
+  changed_when: true
+  when: deb10_fix_broken_result is defined and deb10_fix_broken_result.changed
+
+- name: Debian 11 Bullseye - APT GET AUTOREMOVE
+  ansible.builtin.command: apt autoremove --purge -y
+  changed_when: true

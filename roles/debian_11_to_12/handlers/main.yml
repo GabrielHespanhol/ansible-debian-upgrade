@@ -1,0 +1,4 @@
+---
+- name: Handler para reboot do servidor
+  ansible.builtin.reboot:
+    reboot_timeout: 600
