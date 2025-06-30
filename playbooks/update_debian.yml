@@ -2,12 +2,26 @@
 # Este é o playbook principal que orquestra a atualização completa do Debian.
 # Aqui temos um objetivo que é migrar uma VM do debian 10 para o debian 12
 
-- name: Full Debian Upgrade Sequence
+- name: Debian 10 Upgrade to latest
   hosts: teste 
   become: true
+  gather_facts: true
 
   roles:
     - role: debian_10_to_latest
+
+- name: Debian 10 Upgrade to Debian 11
+  hosts: teste 
+  become: true
+  gather_facts: true  
+  
+  roles:
     - role: debian_10_to_11
+
+- name: Debian 11 Upgrade To Debian 12
+  hosts: teste 
+  become: true
+  gather_facts: true  
+
+  roles:
     - role: debian_11_to_12
-     
