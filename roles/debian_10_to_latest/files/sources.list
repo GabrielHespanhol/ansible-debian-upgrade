@@ -1,0 +1,7 @@
+# Debian archive repo
+deb http://archive.debian.org/debian/ buster main
+deb-src http://archive.debian.org/debian/ buster main
+
+# buster-updates
+deb http://archive.debian.org/debian/ buster-updates main
+deb-src http://archive.debian.org/debian/ buster-updates main

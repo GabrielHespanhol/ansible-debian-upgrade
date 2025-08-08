@@ -3,7 +3,7 @@
 # Aqui temos um objetivo que é migrar uma VM do debian 10 para o debian 12
 
 - name: Debian 10 Upgrade to latest
-  hosts: teste 
+  hosts: all
   become: true
   gather_facts: true
 
