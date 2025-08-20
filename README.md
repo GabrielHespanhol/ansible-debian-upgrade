@@ -97,7 +97,7 @@ A seguir um comando de exemplo para executar o playbook, onde a opção -K vai s
 
 ## Executando o playbook
 ```bash
-ansible-playbook playbooks/update_debian.yml -l teste -K
+ansible-playbook playbooks/update_debian.yml -l debian_servers -K
 ```
 
 ## Arquivo ansible.cfg
